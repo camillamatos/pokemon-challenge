@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #28262E;
+  background: #28262e;
   display: flex;
   text-align: center;
   height: 116px;
@@ -10,13 +10,12 @@ export const Container = styled.div`
 
   img {
     position: absolute;
-     left: 30px;
+    left: 30px;
   }
 `;
 
 export const Title = styled.h1`
-  color: #E3DADA;
+  color: #e3dada;
   font-family: 'Roboto';
   font-size: 28px;
-
 `;

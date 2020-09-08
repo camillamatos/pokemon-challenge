@@ -7,7 +7,7 @@ import { Container, Title } from './styles';
 const Header: React.FC = () => {
   return (
     <Container>
-      <img src={logo} alt="Github Explorer" />
+      <img src={logo} alt="Pokemon Challenge" />
       <Title>POKÉMON CHALLENGE</Title>
     </Container>
   );
