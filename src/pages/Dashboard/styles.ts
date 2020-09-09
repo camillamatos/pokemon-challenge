@@ -9,7 +9,7 @@ export const SearchInput = styled.div`
   border-radius: 10px;
   height: 56px;
   width: 100%;
-  margin-top: 20px;
+  margin: 20px 0;
   display: flex;
   align-items: center;
 

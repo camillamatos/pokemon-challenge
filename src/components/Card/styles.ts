@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.button`
   margin: 20px;
+  border: none;
   border-radius: 8px;
   background: #3e3b47;
-  height: 240px;
+  height: 294px;
   width: 320px;
   text-align: center;
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
 
   img {
     height: 100px;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 
 import {
   BackButton,
@@ -17,11 +18,17 @@ import Header from '../../components/Header';
 import Card from '../../components/Card';
 
 const Detail: React.FC = () => {
+  const history = useHistory();
+
+  const backToDashboard = useCallback(() => {
+    history.push('/');
+  }, []);
+
   return (
     <>
       <Header />
 
-      <BackButton>
+      <BackButton onClick={backToDashboard}>
         <FiArrowLeft />
         Back
       </BackButton>
@@ -85,10 +92,7 @@ const Detail: React.FC = () => {
       </Container>
 
       <Title>Family Tree</Title>
-      <PokemonList>
-        <Card />
-        <Card />
-      </PokemonList>
+      <PokemonList />
     </>
   );
 };
