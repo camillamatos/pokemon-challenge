@@ -23,7 +23,6 @@ interface IPokemon {
 
 const Dashboard: React.FC = () => {
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
-  const [pokemonsShow, setPokemonsShow] = useState<IPokemon[]>([]);
   const [allPokemons, setAllPokemons] = useState<IPokemon[]>([]);
   const [name, setName] = useState('');
 
@@ -46,10 +45,8 @@ const Dashboard: React.FC = () => {
         setNext(response.data.next);
         setPrevious(response.data.previous);
       });
-
-      setPokemonsShow(pokemons);
     }
-  }, [pokemons, page, name]);
+  }, [page, name]);
 
   const navigateToDetail = useCallback(() => {
     history.push('Detail');
@@ -57,7 +54,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const result = allPokemons.filter(pokemon => pokemon.name.includes(name));
-    setPokemonsShow(result);
+    setPokemons(result);
   }, [name, allPokemons]);
 
   const handleNextPage = useCallback(() => {
@@ -85,7 +82,7 @@ const Dashboard: React.FC = () => {
         </SearchInput>
       </Container>
       <PokemonList>
-        {pokemonsShow.map(pokemon => (
+        {pokemons.map(pokemon => (
           <Card
             key={pokemon.name}
             name={pokemon.name}
