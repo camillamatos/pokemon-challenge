@@ -92,7 +92,11 @@ const Detail: React.FC = () => {
       </Container>
 
       <Title>Family Tree</Title>
-      <PokemonList />
+      <PokemonList>
+        <Card name="lala" types="husa" />
+        <Card name="lala" types="husa" />
+        <Card name="lala" types="husa" />
+      </PokemonList>
     </>
   );
 };
