@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
@@ -16,9 +16,43 @@ import {
 
 import Header from '../../components/Header';
 import Card from '../../components/Card';
+import api from '../../services/api';
+
+interface IPokemon {
+  id: number;
+  name: string;
+  img: string;
+  weight: number;
+  height: number;
+  stats: {
+    base_stat: number;
+  };
+}
 
 const Detail: React.FC = () => {
   const history = useHistory();
+
+  /*
+  const [pokemon, setPokemon] = useState<IPokemon>();
+
+   useEffect(() => {
+    api.get(`pokemon/${name}`).then(response => {
+      const { id, sprites, weight, height, stats } = response.data;
+      const { front_default } = sprites;
+
+      const pokeInfo = {
+        id,
+        name,
+        img: front_default,
+        weight,
+        height,
+
+
+      };
+
+      setPokemon(pokeInfo);
+    });
+  }, []); */
 
   const backToDashboard = useCallback(() => {
     history.push('/');
@@ -40,7 +74,7 @@ const Detail: React.FC = () => {
           alt=""
         />
 
-        <Name>Ivysaur</Name>
+        <Name>lalala</Name>
 
         <Infos>
           <div>
@@ -65,7 +99,7 @@ const Detail: React.FC = () => {
             </div>
           </div>
           <div>
-            <p>HP</p>
+            <p>ATK</p>
             <div className="outside">
               <div className="inside">
                 <p>56/100</p>
@@ -73,7 +107,7 @@ const Detail: React.FC = () => {
             </div>
           </div>
           <div>
-            <p>HP</p>
+            <p>DEF</p>
             <div className="outside">
               <div className="inside">
                 <p>56/100</p>
@@ -81,7 +115,7 @@ const Detail: React.FC = () => {
             </div>
           </div>
           <div>
-            <p>HP</p>
+            <p>SPD</p>
             <div className="outside">
               <div className="inside">
                 <p>56/100</p>
@@ -92,11 +126,7 @@ const Detail: React.FC = () => {
       </Container>
 
       <Title>Family Tree</Title>
-      <PokemonList>
-        <Card name="lala" types="husa" />
-        <Card name="lala" types="husa" />
-        <Card name="lala" types="husa" />
-      </PokemonList>
+      <PokemonList />
     </>
   );
 };

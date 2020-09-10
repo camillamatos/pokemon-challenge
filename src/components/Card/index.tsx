@@ -1,29 +1,66 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, useEffect, useState } from 'react';
 
 import { Container, NumberText, NameText, TypeText } from './styles';
 
+import api from '../../services/api';
+
 interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
-  types: string;
 }
 
-const Card: React.FC<CardProps> = ({ name, types, ...rest }) => {
+interface IPokemon {
+  id: number;
+  name: string;
+  types: string;
+  img: string;
+}
+
+interface IType {
+  type: {
+    name: string;
+  };
+}
+
+const Card: React.FC<CardProps> = ({ name, ...rest }) => {
+  const [pokemon, setPokemon] = useState<IPokemon>();
+
+  useEffect(() => {
+    api.get(`pokemon/${name}`).then(response => {
+      const { id, sprites, types } = response.data;
+      const { front_default } = sprites;
+
+      const typeName = types.map((t: IType) => {
+        return t.type.name;
+      });
+
+      const pokeInfo = {
+        id,
+        name,
+        types: typeName.join(', '),
+        img: front_default,
+      };
+
+      setPokemon(pokeInfo);
+    });
+  }, []);
+
   return (
     <Container type="button" {...rest}>
-      <NumberText>#1</NumberText>
-      <img
-        src="https://avatars1.githubusercontent.com/u/40369738?s=460&u=cd827a6e15f953242676b53d9940f77d2706fea4&v=4"
-        alt=""
-      />
+      <NumberText>
+#
+{pokemon?.id}
+      </NumberText>
+
+      <img src={pokemon?.img} alt="" />
 
       <NameText>
         <p>Name:</p>
-        <span>{name}</span>
+        <span>{pokemon?.name}</span>
       </NameText>
 
       <TypeText>
         <p>Types:</p>
-        <span>{types}</span>
+        <span>{pokemon?.types}</span>
       </TypeText>
     </Container>
   );

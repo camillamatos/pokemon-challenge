@@ -85,6 +85,11 @@ export const StatsInfo = styled.div`
     width: 242px;
     margin-top: 12px;
 
+    p {
+      width: 40px;
+      text-align: left;
+    }
+
     div {
       height: 24px;
       border-radius: 20px;

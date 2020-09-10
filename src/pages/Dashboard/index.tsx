@@ -15,10 +15,7 @@ import Card from '../../components/Card';
 import api from '../../services/api';
 
 interface IPokemon {
-  id: number;
   name: string;
-  url: string;
-  types: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -40,22 +37,21 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!name) {
-      api.get(`/pokemon/?offset=${page}&limit=20`).then(response => {
+      api.get(`/pokemon/?offset=${page}&limit=20`).then(async response => {
         setPokemons(response.data.results);
+
         setNext(response.data.next);
         setPrevious(response.data.previous);
       });
+    } else {
+      const result = allPokemons.filter(pokemon => pokemon.name.includes(name));
+      setPokemons(result);
     }
-  }, [page, name]);
+  }, [page, name, allPokemons]);
 
-  const navigateToDetail = useCallback(() => {
-    history.push('Detail');
+  const navigateToDetail = useCallback(pokemon => {
+    history.push(`/${pokemon.name}`);
   }, []);
-
-  useEffect(() => {
-    const result = allPokemons.filter(pokemon => pokemon.name.includes(name));
-    setPokemons(result);
-  }, [name, allPokemons]);
 
   const handleNextPage = useCallback(() => {
     if (next) {
@@ -86,8 +82,7 @@ const Dashboard: React.FC = () => {
           <Card
             key={pokemon.name}
             name={pokemon.name}
-            types={pokemon.name}
-            onClick={navigateToDetail}
+            onClick={() => navigateToDetail(pokemon)}
           />
         ))}
       </PokemonList>

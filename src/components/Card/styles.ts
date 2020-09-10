@@ -14,8 +14,8 @@ export const Container = styled.button`
   cursor: pointer;
 
   img {
-    height: 100px;
-    width: 100px;
+    height: 150px;
+    width: 150px;
     margin-top: 24px;
   }
 `;
