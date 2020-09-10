@@ -43,7 +43,6 @@ interface IPokemonFamilyResponse {
 const Detail: React.FC = () => {
   const history = useHistory();
   const { name } = useParams();
-
   const [pokemon, setPokemon] = useState<IPokemon>();
   const [family, setFamily] = useState([]);
 
