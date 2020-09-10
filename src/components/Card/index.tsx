@@ -42,11 +42,14 @@ const Card: React.FC<CardProps> = ({ name, ...rest }) => {
 
       setPokemon(pokeInfo);
     });
-  }, []);
+  }, [name]);
 
   return (
     <Container type="button" {...rest}>
-      <NumberText>#{pokemon?.id}</NumberText>
+      <NumberText>
+#
+{pokemon?.id}
+      </NumberText>
 
       <img src={pokemon?.img} alt="" />
 

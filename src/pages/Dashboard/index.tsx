@@ -53,9 +53,12 @@ const Dashboard: React.FC = () => {
     }
   }, [page, name, allPokemons]);
 
-  const navigateToDetail = useCallback(pokemon => {
-    history.push(`/${pokemon.name}`);
-  }, []);
+  const navigateToDetail = useCallback(
+    pokemon => {
+      history.push(`/${pokemon.name}`);
+    },
+    [history],
+  );
 
   const handleNextPage = useCallback(() => {
     if (next) {

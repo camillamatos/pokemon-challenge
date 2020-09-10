@@ -92,7 +92,7 @@ const Detail: React.FC = () => {
 
   const backToDashboard = useCallback(() => {
     history.push('/');
-  }, []);
+  }, [history]);
 
   return (
     <>
