@@ -97,13 +97,13 @@ const Detail: React.FC = () => {
   return (
     <>
       <Header />
-
       <BackButton onClick={backToDashboard}>
         <FiArrowLeft />
         Back
       </BackButton>
 
-      <Container>
+      <Container data-testid="container">
+        {/* eslint-disable */}
         <NumberText>#{pokemon?.id}</NumberText>
         <img src={pokemon?.img} alt={pokemon?.name} />
 
@@ -111,15 +111,11 @@ const Detail: React.FC = () => {
 
         <Infos>
           <div>
-            <p>
-{' '}
-{pokemon?.weight} KG</p>
+            <p>{pokemon?.weight} KG</p>
             <span>Weight</span>
           </div>
           <div>
-            <p>
-{' '}
-{pokemon?.height} M</p>
+            <p>{pokemon?.height} M</p>
             <span>Height</span>
           </div>
         </Infos>

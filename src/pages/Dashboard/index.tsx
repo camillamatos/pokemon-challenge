@@ -9,6 +9,7 @@ import {
   Pagination,
   Button,
 } from './styles';
+
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 
@@ -46,6 +47,9 @@ const Dashboard: React.FC = () => {
     } else {
       const result = allPokemons.filter(pokemon => pokemon.name.includes(name));
       setPokemons(result);
+
+      setNext(undefined);
+      setPrevious(undefined);
     }
   }, [page, name, allPokemons]);
 
@@ -77,7 +81,7 @@ const Dashboard: React.FC = () => {
           />
         </SearchInput>
       </Container>
-      <PokemonList>
+      <PokemonList data-testid="pokemon">
         {pokemons.map(pokemon => (
           <Card
             key={pokemon.name}
