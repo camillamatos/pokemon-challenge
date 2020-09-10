@@ -45,7 +45,9 @@ const Dashboard: React.FC = () => {
         setPrevious(response.data.previous);
       });
     } else {
-      const result = allPokemons.filter(pokemon => pokemon.name.includes(name));
+      const result = allPokemons.filter(pokemon =>
+        pokemon.name.includes(name.toLowerCase()),
+      );
       setPokemons(result);
 
       setNext(undefined);
