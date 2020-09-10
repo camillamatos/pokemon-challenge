@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface CardProps {
+  stat?: number;
+}
 
 export const BackButton = styled.button`
   margin: 30px 0 0 40px;
@@ -82,38 +86,40 @@ export const StatsInfo = styled.div`
 
   div {
     display: flex;
-    width: 242px;
-    margin-top: 12px;
+    width: 100%;
 
     p {
-      width: 40px;
+      width: 50px;
       text-align: left;
-    }
-
-    div {
-      height: 24px;
-      border-radius: 20px;
-      background: #c4c4c4;
-      margin-top: 0px;
-
-      p {
-        position: absolute;
-        right: 5px;
-      }
-
-      div {
-        background: #ff9001;
-        width: 50%;
-        position: relative;
-      }
+      margin-top: 10px;
+      font-family: Roboto Slab;
+      font-size: 16px;
+      color: #f4ede8;
     }
   }
+`;
+
+export const Stat = styled.div<CardProps>`
+  height: 24px;
+  border-radius: 20px;
+  background: #c4c4c4;
+  margin-top: 10px;
 
   p {
-    font-family: Roboto Slab;
-    font-size: 16px;
-    color: #f4ede8;
-    margin-right: 10px;
+    position: absolute;
+    right: 5px;
+    bottom: 2px;
+  }
+
+  div {
+    background: #ff9001;
+
+    position: relative;
+    border-radius: 20px;
+
+    ${props => css`
+      width: ${props.stat}%;
+    `}
   }
 `;
 

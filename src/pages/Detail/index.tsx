@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 
 import {
   BackButton,
@@ -12,6 +12,7 @@ import {
   StatsInfo,
   PokemonList,
   Title,
+  Stat,
 } from './styles';
 
 import Header from '../../components/Header';
@@ -25,20 +26,44 @@ interface IPokemon {
   weight: number;
   height: number;
   stats: {
-    base_stat: number;
+    [label: string]: number;
+  };
+}
+
+interface IStat {
+  base_stat: number;
+}
+
+interface IPokemonFamilyResponse {
+  pokemon: {
+    name: string;
   };
 }
 
 const Detail: React.FC = () => {
   const history = useHistory();
+  const { name } = useParams();
 
-  /*
   const [pokemon, setPokemon] = useState<IPokemon>();
+  const [family, setFamily] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
     api.get(`pokemon/${name}`).then(response => {
-      const { id, sprites, weight, height, stats } = response.data;
+      const { id, sprites, weight, height, stats, species } = response.data;
       const { front_default } = sprites;
+
+      const specieName = species.name;
+
+      const statsList = stats.map((stat: IStat) => {
+        return stat.base_stat;
+      });
+
+      const statsValue = {
+        hp: statsList[0],
+        atk: statsList[1],
+        def: statsList[2],
+        spd: statsList[5],
+      };
 
       const pokeInfo = {
         id,
@@ -46,13 +71,24 @@ const Detail: React.FC = () => {
         img: front_default,
         weight,
         height,
-
-
+        stats: statsValue,
       };
 
       setPokemon(pokeInfo);
+
+      api.get(`pokemon-species/${specieName}`).then(res => {
+        const { varieties } = res.data;
+
+        const pokeFamily = varieties.map((poke: IPokemonFamilyResponse) => {
+          return poke.pokemon.name;
+        });
+
+        const filtered = pokeFamily.filter((p: Array<string>) => p !== name);
+
+        setFamily(filtered);
+      });
     });
-  }, []); */
+  }, [name]);
 
   const backToDashboard = useCallback(() => {
     history.push('/');
@@ -68,21 +104,22 @@ const Detail: React.FC = () => {
       </BackButton>
 
       <Container>
-        <NumberText>#1</NumberText>
-        <img
-          src="https://avatars1.githubusercontent.com/u/40369738?s=460&u=cd827a6e15f953242676b53d9940f77d2706fea4&v=4"
-          alt=""
-        />
+        <NumberText>#{pokemon?.id}</NumberText>
+        <img src={pokemon?.img} alt={pokemon?.name} />
 
-        <Name>lalala</Name>
+        <Name>{pokemon?.name}</Name>
 
         <Infos>
           <div>
-            <p>69 KG</p>
+            <p>
+{' '}
+{pokemon?.weight} KG</p>
             <span>Weight</span>
           </div>
           <div>
-            <p>0.7 M</p>
+            <p>
+{' '}
+{pokemon?.height} M</p>
             <span>Height</span>
           </div>
         </Infos>
@@ -92,41 +129,64 @@ const Detail: React.FC = () => {
         <StatsInfo>
           <div>
             <p>HP</p>
-            <div className="outside">
-              <div className="inside">
-                <p>56/100</p>
+            <Stat stat={pokemon?.stats.hp}>
+              <div>
+                <p>
+                  {pokemon?.stats.hp}
+                  /100
+                </p>
               </div>
-            </div>
+            </Stat>
           </div>
           <div>
             <p>ATK</p>
-            <div className="outside">
-              <div className="inside">
-                <p>56/100</p>
+            <Stat stat={pokemon?.stats.atk}>
+              <div>
+                <p>
+                  {pokemon?.stats.atk}
+                  /100
+                </p>
               </div>
-            </div>
+            </Stat>
           </div>
           <div>
             <p>DEF</p>
-            <div className="outside">
-              <div className="inside">
-                <p>56/100</p>
+            <Stat stat={pokemon?.stats.def}>
+              <div>
+                <p>
+                  {pokemon?.stats.def}
+                  /100
+                </p>
               </div>
-            </div>
+            </Stat>
           </div>
           <div>
             <p>SPD</p>
-            <div className="outside">
-              <div className="inside">
-                <p>56/100</p>
+            <Stat stat={pokemon?.stats.spd}>
+              <div>
+                <p>
+                  {pokemon?.stats.spd}
+                  /100
+                </p>
               </div>
-            </div>
+            </Stat>
           </div>
         </StatsInfo>
       </Container>
 
-      <Title>Family Tree</Title>
-      <PokemonList />
+      {family && (
+        <>
+          <Title>Family Tree</Title>
+
+          <PokemonList>
+            {family.map(f => (
+              <Link to={`/${f}`}>
+                <Card key={f} name={f} />
+              </Link>
+            ))}
+          </PokemonList>
+        </>
+      )}
     </>
   );
 };
