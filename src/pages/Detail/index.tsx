@@ -169,19 +169,17 @@ const Detail: React.FC = () => {
         </StatsInfo>
       </Container>
 
-      {family && (
-        <>
-          <Title>Family Tree</Title>
+      {(family.length >= 1) && <Title>Family Tree</Title>}
 
-          <PokemonList>
-            {family.map(f => (
-              <Link to={`/${f}`}>
-                <Card key={f} name={f} />
-              </Link>
-            ))}
-          </PokemonList>
-        </>
-      )}
+      <PokemonList>
+        {family.map(f => (
+          <Link to={`/${f}`}>
+            <Card key={f} name={f} />
+          </Link>
+        ))}
+      </PokemonList>
+
+
     </>
   );
 };
