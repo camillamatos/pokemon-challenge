@@ -88,7 +88,7 @@ const Detail: React.FC = () => {
           const pokeFamily = [firstPoke];
 
           function loadFamily(evol: any) {
-            evol.map((e: IEvolution) => {
+            evol.forEach((e: IEvolution) => {
               pokeFamily.push(e.species.name);
               loadFamily(e.evolves_to);
             });
