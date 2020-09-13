@@ -34,17 +34,11 @@ interface IStat {
   base_stat: number;
 }
 
-interface IPokemonFamilyResponse {
-  pokemon: {
-    name: string;
-  };
-}
-
 const Detail: React.FC = () => {
   const history = useHistory();
   const { name } = useParams();
   const [pokemon, setPokemon] = useState<IPokemon>();
-  const [family, setFamily] = useState([]);
+  const [family, setFamily] = useState<Array<string>>([]);
 
   useEffect(() => {
     api.get(`pokemon/${name}`).then(response => {
@@ -76,15 +70,27 @@ const Detail: React.FC = () => {
       setPokemon(pokeInfo);
 
       api.get(`pokemon-species/${specieName}`).then(res => {
-        const { varieties } = res.data;
+        const { url } = res.data.evolution_chain;
 
-        const pokeFamily = varieties.map((poke: IPokemonFamilyResponse) => {
-          return poke.pokemon.name;
+        const evolutionId = url.substr(42, 3);
+
+        api.get(`evolution-chain/${evolutionId}`).then(r => {
+          const firstPoke = r.data.chain.species.name;
+          let evolution = r.data.chain.evolves_to[0];
+
+          const pokeFamily = [firstPoke];
+
+          while (evolution) {
+            pokeFamily.push(evolution.species.name);
+            evolution = evolution.evolves_to[0];
+          }
+
+          const filtered: Array<string> = pokeFamily.filter(
+            (p: Array<string>) => p !== name,
+          );
+
+          setFamily(filtered);
         });
-
-        const filtered = pokeFamily.filter((p: Array<string>) => p !== name);
-
-        setFamily(filtered);
       });
     });
   }, [name]);
@@ -173,8 +179,8 @@ const Detail: React.FC = () => {
 
       <PokemonList>
         {family.map(f => (
-          <Link to={`/${f}`}>
-            <Card key={f} name={f} />
+          <Link to={`/${f}`} key={f}>
+            <Card name={f} />
           </Link>
         ))}
       </PokemonList>
