@@ -34,6 +34,13 @@ interface IStat {
   base_stat: number;
 }
 
+interface IEvolution {
+  evolves_to: [];
+  species: {
+    name: string;
+  };
+}
+
 const Detail: React.FC = () => {
   const history = useHistory();
   const { name } = useParams();
@@ -76,14 +83,18 @@ const Detail: React.FC = () => {
 
         api.get(`evolution-chain/${evolutionId}`).then(r => {
           const firstPoke = r.data.chain.species.name;
-          let evolution = r.data.chain.evolves_to[0];
+          const evolution = r.data.chain.evolves_to;
 
           const pokeFamily = [firstPoke];
 
-          while (evolution) {
-            pokeFamily.push(evolution.species.name);
-            evolution = evolution.evolves_to[0];
+          function loadFamily(evol: any) {
+            evol.map((e: IEvolution) => {
+              pokeFamily.push(e.species.name);
+              loadFamily(e.evolves_to);
+            });
           }
+
+          loadFamily(evolution);
 
           const filtered: Array<string> = pokeFamily.filter(
             (p: Array<string>) => p !== name,
@@ -184,8 +195,6 @@ const Detail: React.FC = () => {
           </Link>
         ))}
       </PokemonList>
-
-
     </>
   );
 };

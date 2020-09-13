@@ -46,10 +46,8 @@ const Card: React.FC<CardProps> = ({ name, ...rest }) => {
 
   return (
     <Container type="button" {...rest}>
-      <NumberText>
-#
-{pokemon?.id}
-      </NumberText>
+      {/* eslint-disable */}
+      <NumberText>#{pokemon?.id}</NumberText>
 
       <img src={pokemon?.img} alt="" />
 
