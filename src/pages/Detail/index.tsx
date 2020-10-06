@@ -43,7 +43,7 @@ interface IEvolution {
 
 const Detail: React.FC = () => {
   const history = useHistory();
-  const { name } = useParams();
+  const { name } = useParams<{ name: string }>();
   const [pokemon, setPokemon] = useState<IPokemon>();
   const [family, setFamily] = useState<Array<string>>([]);
 
