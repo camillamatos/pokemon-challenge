@@ -1,8 +1,18 @@
-import React, { ButtonHTMLAttributes, useEffect, useState } from 'react';
+import React, {
+  ButtonHTMLAttributes,
+  useEffect,
+  useState
+} from 'react';
 
-import { Container, NumberText, NameText, TypeText } from './styles';
+import {
+  Container,
+  NumberText,
+  NameText,
+  TypeText
+} from './styles';
 
-import api from '../../services/api';
+import api from 'src/services/api';
+import IF from 'src/components/IF';
 
 interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
@@ -21,12 +31,27 @@ interface IType {
   };
 }
 
-const Card: React.FC<CardProps> = ({ name, ...rest }) => {
+interface IResponse {
+  data: {
+    id: number;
+    types: Array<IType>;
+    sprites: {
+      front_default: string;
+    },
+    img: string;
+  }
+}
+
+const Card: React.FC<CardProps> = ({ name, ...rest }: { name: string }) => {
   const [pokemon, setPokemon] = useState<IPokemon>();
 
   useEffect(() => {
-    api.get(`pokemon/${name}`).then(response => {
-      const { id, sprites, types } = response.data;
+    pokemonInformation()
+  }, [name]);
+
+  const pokemonInformation = async () => {
+    await api.get(`pokemon/${name}`).then(({ data }: IResponse) => {
+      const { id, sprites, types } = data;
       const { front_default } = sprites;
 
       const typeName = types.map((t: IType) => {
@@ -42,24 +67,25 @@ const Card: React.FC<CardProps> = ({ name, ...rest }) => {
 
       setPokemon(pokeInfo);
     });
-  }, [name]);
+  }
 
   return (
     <Container type="button" {...rest}>
-      {/* eslint-disable */}
-      <NumberText>#{pokemon?.id}</NumberText>
+      <IF test={pokemon?.id}>
+        <NumberText>#{pokemon?.id}</NumberText>
 
-      <img src={pokemon?.img} alt="" />
+        <img src={pokemon?.img} alt={pokemon?.name} />
 
-      <NameText>
-        <p>Name:</p>
-        <span>{pokemon?.name}</span>
-      </NameText>
+        <NameText>
+          <p>Name:</p>
+          <span>{pokemon?.name}</span>
+        </NameText>
 
-      <TypeText>
-        <p>Types:</p>
-        <span>{pokemon?.types}</span>
-      </TypeText>
+        <TypeText>
+          <p>Types:</p>
+          <span>{pokemon?.types}</span>
+        </TypeText>
+      </IF>
     </Container>
   );
 };
