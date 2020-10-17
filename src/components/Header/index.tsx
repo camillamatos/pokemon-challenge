@@ -1,8 +1,8 @@
 import React from 'react';
 
-import logo from '../../assets/logo.png';
-
 import { Container, Title } from './styles';
+
+import logo from 'src/assets/logo.png';
 
 const Header: React.FC = () => {
   return (

@@ -1,8 +1,17 @@
-import React, { ButtonHTMLAttributes, useEffect, useState } from 'react';
+import React, {
+  ButtonHTMLAttributes,
+  useEffect,
+  useState
+} from 'react';
 
-import { Container, NumberText, NameText, TypeText } from './styles';
+import {
+  Container,
+  NumberText,
+  NameText,
+  TypeText
+} from './styles';
 
-import api from '../../services/api';
+import api from 'src/services/api';
 
 interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
