@@ -1,6 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback,
+   useEffect,
+   useState
+} from 'react';
+import { useHistory,
+   useParams,
+   Link
+} from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory, useParams, Link } from 'react-router-dom';
 
 import {
   BackButton,
@@ -15,9 +21,9 @@ import {
   Stat,
 } from './styles';
 
-import Header from '../../components/Header';
-import Card from '../../components/Card';
-import api from '../../services/api';
+import Header from 'src/components/Header';
+import Card from 'src/components/Card';
+import api from 'src/services/api';
 
 interface IPokemon {
   id: number;

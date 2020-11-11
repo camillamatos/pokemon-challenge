@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Dashboard from './pages/Dashboard';
-import Detail from './pages/Detail';
+import Dashboard from 'src/pages/Dashboard';
+import Detail from 'src/pages/Detail';
 
 const Routes: React.FC = () => (
   <Switch>

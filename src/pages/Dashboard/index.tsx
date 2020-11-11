@@ -1,6 +1,14 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback
+} from 'react';
+import {
+  FiSearch,
+  FiChevronRight,
+  FiChevronLeft
+} from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { FiSearch, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 import {
   Container,
@@ -10,10 +18,9 @@ import {
   Button,
 } from './styles';
 
-import Header from '../../components/Header';
-import Card from '../../components/Card';
-
-import api from '../../services/api';
+import Header from 'src/components/Header';
+import Card from 'src/components/Card';
+import api from 'src/services/api';
 
 interface IPokemon {
   name: string;
