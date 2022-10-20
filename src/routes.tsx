@@ -1,14 +1,18 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes as RDRoutes, Route, BrowserRouter } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard';
 import Detail from './pages/Detail';
 
-const Routes: React.FC = () => (
-  <Switch>
-    <Route path="/" exact component={Dashboard} />
-    <Route path="/:name" component={Detail} />
-  </Switch>
-);
+function Routes() {
+  return (
+    <BrowserRouter>
+      <RDRoutes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/:name" element={<Detail />} />
+      </RDRoutes>
+    </BrowserRouter>
+  );
+}
 
 export default Routes;
