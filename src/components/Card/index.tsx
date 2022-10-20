@@ -1,18 +1,8 @@
-import React, {
-  ButtonHTMLAttributes,
-  useEffect,
-  useState
-} from 'react';
-
-import {
-  Container,
-  NumberText,
-  NameText,
-  TypeText
-} from './styles';
+import React, { ButtonHTMLAttributes, useEffect, useState } from 'react';
 
 import api from 'src/services/api';
 import IF from 'src/components/IF';
+import { Container, NumberText, NameText, TypeText } from './styles';
 
 interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
@@ -37,26 +27,20 @@ interface IResponse {
     types: Array<IType>;
     sprites: {
       front_default: string;
-    },
+    };
     img: string;
-  }
+  };
 }
 
-const Card: React.FC<CardProps> = ({ name, ...rest }: { name: string }) => {
+function Card({ name, ...rest }: CardProps) {
   const [pokemon, setPokemon] = useState<IPokemon>();
 
   useEffect(() => {
-    pokemonInformation()
-  }, [name]);
-
-  const pokemonInformation = async () => {
-    await api.get(`pokemon/${name}`).then(({ data }: IResponse) => {
+    api.get(`pokemon/${name}`).then(({ data }: IResponse) => {
       const { id, sprites, types } = data;
       const { front_default } = sprites;
 
-      const typeName = types.map((t: IType) => {
-        return t.type.name;
-      });
+      const typeName = types.map((t: IType) => t.type.name);
 
       const pokeInfo = {
         id,
@@ -67,27 +51,29 @@ const Card: React.FC<CardProps> = ({ name, ...rest }: { name: string }) => {
 
       setPokemon(pokeInfo);
     });
-  }
+  }, [name]);
 
   return (
     <Container type="button" {...rest}>
-      <IF test={pokemon?.id}>
-        <NumberText>#{pokemon?.id}</NumberText>
+      <IF test={!!pokemon?.id}>
+        <>
+          <NumberText>#{pokemon?.id}</NumberText>
 
-        <img src={pokemon?.img} alt={pokemon?.name} />
+          <img src={pokemon?.img} alt={pokemon?.name} />
 
-        <NameText>
-          <p>Name:</p>
-          <span>{pokemon?.name}</span>
-        </NameText>
+          <NameText>
+            <p>Name:</p>
+            <span>{pokemon?.name}</span>
+          </NameText>
 
-        <TypeText>
-          <p>Types:</p>
-          <span>{pokemon?.types}</span>
-        </TypeText>
+          <TypeText>
+            <p>Types:</p>
+            <span>{pokemon?.types}</span>
+          </TypeText>
+        </>
       </IF>
     </Container>
   );
-};
+}
 
 export default Card;

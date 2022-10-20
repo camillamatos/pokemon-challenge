@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import {
   BackButton,
@@ -41,8 +41,8 @@ interface IEvolution {
   };
 }
 
-const Detail: React.FC = () => {
-  const history = useHistory();
+function Detail() {
+  const navigate = useNavigate();
   const { name } = useParams();
   const [pokemon, setPokemon] = useState<IPokemon>();
   const [family, setFamily] = useState<Array<string>>([]);
@@ -65,9 +65,9 @@ const Detail: React.FC = () => {
         spd: statsList[5],
       };
 
-      const pokeInfo = {
+      const pokeInfo: IPokemon = {
         id,
-        name,
+        name: name!,
         img: front_default,
         weight,
         height,
@@ -97,7 +97,7 @@ const Detail: React.FC = () => {
           loadFamily(evolution);
 
           const filtered: Array<string> = pokeFamily.filter(
-            (p: Array<string>) => p !== name,
+            (p: string) => p !== name,
           );
 
           setFamily(filtered);
@@ -107,8 +107,8 @@ const Detail: React.FC = () => {
   }, [name]);
 
   const backToDashboard = useCallback(() => {
-    history.push('/');
-  }, [history]);
+    navigate('/');
+  }, [navigate]);
 
   return (
     <>
@@ -197,6 +197,6 @@ const Detail: React.FC = () => {
       </PokemonList>
     </>
   );
-};
+}
 
 export default Detail;

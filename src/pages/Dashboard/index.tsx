@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FiSearch, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 import {
@@ -19,7 +19,7 @@ interface IPokemon {
   name: string;
 }
 
-const Dashboard: React.FC = () => {
+function Dashboard() {
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [allPokemons, setAllPokemons] = useState<IPokemon[]>([]);
   const [name, setName] = useState('');
@@ -28,10 +28,10 @@ const Dashboard: React.FC = () => {
   const [next, setNext] = useState();
   const [previous, setPrevious] = useState();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api.get(`/pokemon/?offset=0&limit=1060`).then(response => {
+    api.get('/pokemon/?offset=0&limit=1060').then(response => {
       setAllPokemons(response.data.results);
     });
   }, []);
@@ -56,10 +56,10 @@ const Dashboard: React.FC = () => {
   }, [page, name, allPokemons]);
 
   const navigateToDetail = useCallback(
-    pokemon => {
-      history.push(`/${pokemon.name}`);
+    (pokemon: IPokemon) => {
+      navigate(`/${pokemon.name}`);
     },
-    [history],
+    [navigate],
   );
 
   const handleNextPage = useCallback(() => {
@@ -106,6 +106,6 @@ const Dashboard: React.FC = () => {
       </Pagination>
     </>
   );
-};
+}
 
 export default Dashboard;
